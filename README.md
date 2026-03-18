@@ -38,14 +38,14 @@ If you use this code or dataset in your research, please cite our paper:
 
 ```
 Zhang, W., Jiang, M., Teo, K.A.C., Bhuvanakantham, R., Foo, C.H.V., Lu, J., Gulyás, B., & Guan, C.
-COSMO, a covert and overt speech multimodal open dataset with EEG and fMRI. Scientific Data (2026).
+COSMO, a covert and overt speech multimodal open dataset with EEG and fMRI. In submission.
 ```
 
 ## Data Availability
 
-The full dataset is publicly available at:
-
-- **Dataset repository**: [to be added upon publication]
+During peer review, the dataset is now accessible via a private URL:
+https://researchdata.ntu.edu.sg/privateurl.xhtml?token=c40b1172-dcd4-48bc-b5cc-287d99ba4120
+A public DOI as a permanent link will be assigned upon acceptance of this paper.
 
 Related code repositories:
 1. **This repository** — Preprocessing pipelines and data quality validation
@@ -170,6 +170,6 @@ Nanyang Technological University, Singapore
 Email: ctguan@ntu.edu.sg
 
 **First author**: Dr. Wei Zhang
-Cognitive Neuroimaging Centre
+College of Computing and Data Science
 Nanyang Technological University, Singapore
 Email: wilson.zhangwei@ntu.edu.sg
