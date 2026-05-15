@@ -1,0 +1,7 @@
+{
+  "raw_st_eeg": "/home/wilson/DSO1_data/raw_st_eeg",
+  "raw_si_eeg_after_aas_bcg": "/home/wilson/DSO1_data/bcg_si_eeg",
+  "montage": "/media/datasets/DSO1/Documents/EasyCap/BC-MR-64.bvef",
+  "out_base": "/path/to/benchmark_fast_reproduction_outputs",
+  "st_reproduce_out": "/path/to/benchmark_fast_reproduction_outputs/standalone_eeg"
+}

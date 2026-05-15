@@ -1,0 +1,43 @@
+# Local data and generated derivatives
+/data/
+/raw*/
+/prep*/
+*.eeg
+*.vhdr
+*.vmrk
+*.set
+*.fdt
+*.mat
+*.npz
+*.nii
+*.nii.gz
+*.h5
+*.hdf5
+
+# Manuscript and local working files
+manuscript/
+work_log/
+ref/
+fig/
+tables/
+*.docx
+*.xlsx
+*_local*
+
+# Python/MATLAB generated files
+__pycache__/
+*.pyc
+*.pyo
+*.asv
+*.m~
+
+# Local tooling
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.claude/
+.codex/
+.memory/
+_archive/
+_tmp*/
