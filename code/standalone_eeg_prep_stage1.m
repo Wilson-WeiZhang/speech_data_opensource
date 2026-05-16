@@ -1,12 +1,12 @@
-%% standalone_eeg_prep_stage1.m — ST EEG: 5-utterance version
-%% Raw → resample 250 → 1-100 Hz → notch 49-51 → epoch covert 5utt → save
+%% standalone_eeg_prep_stage1.m â€” ST EEG: 5-utterance version
+%% Raw â†’ resample 250 â†’ 1-100 Hz â†’ notch 49-51 â†’ epoch covert 5utt â†’ save
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); standalone_eeg_prep_stage1"
 
 addpath('/path/to/eeglab2024');  % <-- SET YOUR EEGLAB PATH
 eeglab nogui;
 
 data_dir = '../../data/raw_st_eeg/';       % <-- SET YOUR RAW DATA PATH
-output_dir = '../../data/prep_st_5u/';
+output_dir = '../../data/prep_st_eeg/';
 if ~exist(output_dir, 'dir'), mkdir(output_dir); end
 
 file_list = dir(fullfile(data_dir, '*.vhdr'));
@@ -57,7 +57,7 @@ for subj = 1:length(file_list)
         EEG.event(j).block_number = block_numbers(j);
     end
 
-    % Remove duplicate events (< 5s apart) — keeps 1 marker per trial
+    % Remove duplicate events (< 5s apart) â€” keeps 1 marker per trial
     to_remove = [];
     for j = 2:length(EEG.event)
         if (EEG.event(j).latency - EEG.event(j-1).latency) < 5 * EEG.srate

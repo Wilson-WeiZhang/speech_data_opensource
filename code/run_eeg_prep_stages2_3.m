@@ -1,4 +1,4 @@
-%% run_eeg_prep_stages2_3.m — Run stage2 (ICA, parfor 16) + stage3 for both ST and SI
+%% run_eeg_prep_stages2_3.m â€” Run stage2 (ICA, parfor 16) + stage3 for both ST and SI
 %% Run after stage1 completes:
 %% matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); run_eeg_prep_stages2_3"
 
@@ -28,8 +28,8 @@ fprintf('===== SI 5u stage3 (clean) =====\n');
 simultaneous_eeg_prep_stage3;
 
 % Summary
-st_done = length(dir(fullfile('../../data/prep_st_5u/', '*_clean.set')));
-si_done = length(dir(fullfile('../../data/prep_si_5u/', '*_clean.set')));
+st_done = length(dir(fullfile('../../data/prep_st_eeg/', '*_clean.set')));
+si_done = length(dir(fullfile('../../data/prep_si_eeg/', '*_clean.set')));
 fprintf('\n===== ALL DONE =====\n');
 fprintf('ST 5u: %d clean files (63ch, ECG removed)\n', st_done);
 fprintf('SI 5u: %d clean files (63ch, ECG removed)\n', si_done);

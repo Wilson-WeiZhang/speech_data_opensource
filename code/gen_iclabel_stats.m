@@ -1,6 +1,6 @@
 %% ICLabel classification statistics for standalone EEG (5-utterance pipeline)
 %  Computes per-subject IC counts by ICLabel category and group summary.
-%  Input:  *_precut_ICA.set files from prep_st_5u/
+%  Input:  *_precut_ICA.set files from prep_st_eeg/
 %  Output: printed summary statistics for manuscript reporting
 %
 %  ICLabel categories: Brain, Muscle, Eye, Heart, Line Noise, Channel Noise, Other
@@ -9,12 +9,12 @@
 clear; clc;
 
 %% Path setup
-if exist('../../data/prep_st_5u/', 'dir')
-    data_path = '../../data/prep_st_5u/';
-elseif exist('data/prep_st_5u/', 'dir')
-    data_path = 'data/prep_st_5u/';
+if exist('../../data/prep_st_eeg/', 'dir')
+    data_path = '../../data/prep_st_eeg/';
+elseif exist('data/prep_st_eeg/', 'dir')
+    data_path = 'data/prep_st_eeg/';
 else
-    error('Cannot find prep_st_5u data. Set data_path to your prep_st_5u directory.');
+    error('Cannot find prep_st_eeg data. Set data_path to your prep_st_eeg directory.');
 end
 
 %% Find all pre-ICA files

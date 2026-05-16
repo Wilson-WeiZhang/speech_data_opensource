@@ -1,12 +1,12 @@
-%% simultaneous_eeg_prep_stage1.m — SI EEG: 5-utterance version
-%% BCG corrected → resample 250 → 1-30 Hz → epoch covert 5utt → save
+%% simultaneous_eeg_prep_stage1.m â€” SI EEG: 5-utterance version
+%% BCG corrected â†’ resample 250 â†’ 1-30 Hz â†’ epoch covert 5utt â†’ save
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); simultaneous_eeg_prep_stage1"
 
 addpath('/path/to/eeglab2024');  % <-- SET YOUR EEGLAB PATH
 eeglab nogui;
 
 data_dir = '../../data/bcg_si_eeg/';       % <-- SET YOUR RAW DATA PATH
-output_dir = '../../data/prep_si_5u/';
+output_dir = '../../data/prep_si_eeg/';
 if ~exist(output_dir, 'dir'), mkdir(output_dir); end
 
 subj_dirs = dir(fullfile(data_dir, 'S0*'));

@@ -1,10 +1,10 @@
-%% gen_fig3_opensource.m — Figure 3: Phrase-Specific ERPs
+%% gen_fig3_opensource.m â€” Figure 3: Phrase-Specific ERPs
 %% Reproduces Figure 3 from the DSO Data Descriptor manuscript.
 %%
 %% Figure layout (2 rows x 2 columns):
 %%   Col 1: Standalone EEG (ST)       Col 2: Simultaneous EEG (SI)
-%%   Row 1: GFP — 5 phrases           Row 1: GFP — 5 phrases
-%%   Row 2: Cz  — 5 phrases           Row 2: Cz  — 5 phrases
+%%   Row 1: GFP â€” 5 phrases           Row 1: GFP â€” 5 phrases
+%%   Row 2: Cz  â€” 5 phrases           Row 2: Cz  â€” 5 phrases
 %%
 %% Each panel shows grand-average waveforms (5 command phrases) with SEM
 %% shading across subjects. Data are baseline z-scored and smoothed (20 ms
@@ -13,11 +13,11 @@
 %% Requirements:
 %%   - MATLAB (tested R2025b)
 %%   - EEGLAB (tested 2024.2)
-%%   - Preprocessed data: *_clean.set files in prep_st_5u/ and prep_si_5u/
+%%   - Preprocessed data: *_clean.set files in prep_st_eeg/ and prep_si_eeg/
 %%
 %% Input data:
-%%   data_root/prep_st_5u/  — Standalone EEG, 63-ch, covert epochs (N=58)
-%%   data_root/prep_si_5u/  — Simultaneous EEG, 63-ch, covert epochs (N=51)
+%%   data_root/prep_st_eeg/  â€” Standalone EEG, 63-ch, covert epochs (N=58)
+%%   data_root/prep_si_eeg/  â€” Simultaneous EEG, 63-ch, covert epochs (N=51)
 %%
 %% Output:
 %%   out_dir/erp_5phrases_gfp_st_covert.png
@@ -30,7 +30,7 @@
 %%   2. Run: matlab -batch "gen_fig3_opensource"
 
 %% ==================== USER CONFIG ====================
-data_root   = '../../data';                    % parent of prep_st_5u/ and prep_si_5u/
+data_root   = '../../data';                    % parent of prep_st_eeg/ and prep_si_eeg/
 eeglab_path = '/path/to/eeglab2024.2';     % EEGLAB root directory
 out_dir     = '../../fig/f3';                  % output directory
 dpi         = 300;                           % export resolution
@@ -39,8 +39,8 @@ dpi         = 300;                           % export resolution
 addpath(eeglab_path); eeglab nogui;
 if ~exist(out_dir, 'dir'), mkdir(out_dir); end
 
-st_dir = fullfile(data_root, 'prep_st_5u');
-si_dir = fullfile(data_root, 'prep_si_5u');
+st_dir = fullfile(data_root, 'prep_st_eeg');
+si_dir = fullfile(data_root, 'prep_si_eeg');
 
 % The 5 covert speech command phrases
 condition_names = {'Go there', 'Distract target', 'Follow me', 'Explore here', 'Terminate'};
@@ -168,7 +168,7 @@ for m = 1:2
             ylabel('Amplitude (z-score)', 'FontSize', font_size);
         end
         xlim([-0.5, 1.5]);
-        title(sprintf('%s — %s, 5 Phrases (N=%d)', ...
+        title(sprintf('%s â€” %s, 5 Phrases (N=%d)', ...
             mod_labels{m}, ch_modes{mode}, n_subj), 'FontSize', font_size + 2);
         set(gca, 'TickDir', 'out', 'Box', 'off', 'FontSize', font_size, 'LineWidth', 3);
         ax = gca;
@@ -189,8 +189,8 @@ end
 fprintf('\n===== Figure 3 complete =====\n');
 fprintf('Output directory: %s\n', out_dir);
 fprintf('Files:\n');
-fprintf('  erp_5phrases_gfp_st_covert.png  — GFP, Standalone\n');
-fprintf('  erp_5phrases_gfp_si_covert.png  — GFP, Simultaneous\n');
-fprintf('  erp_5phrases_cz_st_covert.png   — Cz,  Standalone\n');
-fprintf('  erp_5phrases_cz_si_covert.png   — Cz,  Simultaneous\n');
+fprintf('  erp_5phrases_gfp_st_covert.png  â€” GFP, Standalone\n');
+fprintf('  erp_5phrases_gfp_si_covert.png  â€” GFP, Simultaneous\n');
+fprintf('  erp_5phrases_cz_st_covert.png   â€” Cz,  Standalone\n');
+fprintf('  erp_5phrases_cz_si_covert.png   â€” Cz,  Simultaneous\n');
 fprintf('\nManual step: arrange the 4 panels into a 2x2 grid in your figure editor.\n');

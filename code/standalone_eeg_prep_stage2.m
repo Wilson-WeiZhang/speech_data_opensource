@@ -1,4 +1,4 @@
-%% standalone_eeg_prep_stage2.m — ST EEG 5u: ICA + ICLabel + MARA
+%% standalone_eeg_prep_stage2.m â€” ST EEG 5u: ICA + ICLabel + MARA
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); standalone_eeg_prep_stage2"
 
 if ~exist('eeglab', 'file')
@@ -6,7 +6,7 @@ if ~exist('eeglab', 'file')
     eeglab nogui;
 end
 
-data_dir = '../../data/prep_st_5u/';
+data_dir = '../../data/prep_st_eeg/';
 files = dir(fullfile(data_dir, '*_processed_trials.set'));
 fprintf('Found %d files for ICA\n', length(files));
 

@@ -42,6 +42,8 @@ def main() -> None:
 
     patch_train_fast_aggregation(Path(args.train_fast), args.n_subjects)
 
+    os.environ["COSMO_BENCHMARK_NPZ"] = args.npz
+    # Compatibility for the original FAST data loader imported at runtime.
     os.environ["UP2025_58_NPZ"] = args.npz
     sys.path.insert(0, args.import_dir)
     sys.path.insert(1, args.repo_root)

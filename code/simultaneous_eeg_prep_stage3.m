@@ -1,4 +1,4 @@
-%% simultaneous_eeg_prep_stage3.m — SI EEG 5u: clean (automatic brain > 0.9)
+%% simultaneous_eeg_prep_stage3.m â€” SI EEG 5u: clean (automatic brain > 0.9)
 %% Logic: remove ECG only after IC rejection, retaining 63 scalp EEG channels.
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); simultaneous_eeg_prep_stage3"
 
@@ -7,7 +7,7 @@ if ~exist('eeglab', 'file')
     eeglab nogui;
 end
 
-data_dir = '../../data/prep_si_5u/';
+data_dir = '../../data/prep_si_eeg/';
 d = dir(fullfile(data_dir, '*_precut_ICA.set'));
 fprintf('Found %d precut_ICA files\n', length(d));
 
@@ -29,7 +29,7 @@ for sub = 1:length(d)
     t_brain = find(EEG.etc.ic_classification.ICLabel.classifications(:, 1) > threshold)';
 
     if isempty(t_brain)
-        fprintf('  NO brain components > %.1f — SKIPPED\n', threshold);
+        fprintf('  NO brain components > %.1f â€” SKIPPED\n', threshold);
         skipped{end+1} = name;
         continue;
     end
@@ -57,7 +57,7 @@ for sub = 1:length(d)
     brain = setdiff(brain, low_brain);
 
     if isempty(brain)
-        fprintf('  NO brain components after filtering — SKIPPED\n');
+        fprintf('  NO brain components after filtering â€” SKIPPED\n');
         skipped{end+1} = name;
         continue;
     end

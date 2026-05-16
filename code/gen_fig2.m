@@ -1,28 +1,28 @@
-%% gen_fig2_opensource.m — Figure 2: EEG Signal Quality
+%% gen_fig2_opensource.m â€” Figure 2: EEG Signal Quality
 %% Reproduces Figure 2 from the DSO Data Descriptor manuscript.
 %%
 %% Figure layout (3 rows x 2 columns):
 %%   Col 1: Simultaneous EEG (SI)    Col 2: Standalone EEG (ST)
-%%   Row 1: Grand-mean PSD — 3 topomaps (Delta/Theta/Alpha) + channel PSD
-%%   Row 2: Sample subject PSD — same layout as Row 1
-%%   Row 3: Sample subject ICs — top 6 independent component topomaps
+%%   Row 1: Grand-mean PSD â€” 3 topomaps (Delta/Theta/Alpha) + channel PSD
+%%   Row 2: Sample subject PSD â€” same layout as Row 1
+%%   Row 3: Sample subject ICs â€” top 6 independent component topomaps
 %%
 %% Requirements:
 %%   - MATLAB (tested R2025b)
 %%   - EEGLAB (tested 2024.2) with ICLabel plugin
-%%   - Preprocessed data: *_clean.set files in prep_st_5u/ and prep_si_5u/
+%%   - Preprocessed data: *_clean.set files in prep_st_eeg/ and prep_si_eeg/
 %%
 %% Input data:
-%%   data_root/prep_st_5u/  — Standalone EEG, 63-ch, 5-utterance epochs (N=58)
-%%   data_root/prep_si_5u/  — Simultaneous EEG, 63-ch, 5-utterance epochs (N=51)
+%%   data_root/prep_st_eeg/  â€” Standalone EEG, 63-ch, 5-utterance epochs (N=58)
+%%   data_root/prep_si_eeg/  â€” Simultaneous EEG, 63-ch, 5-utterance epochs (N=51)
 %%
 %% Output:
-%%   out_dir/grandmean_st_psd.png  — Row 1 right panel
-%%   out_dir/grandmean_si_psd.png  — Row 1 left panel
-%%   out_dir/<sample>_st_psd.png   — Row 2 right panel
-%%   out_dir/<sample>_si_psd.png   — Row 2 left panel
-%%   out_dir/<sample>_st_ic_2x3.png — Row 3 right panel
-%%   out_dir/<sample>_si_ic_2x3.png — Row 3 left panel
+%%   out_dir/grandmean_st_psd.png  â€” Row 1 right panel
+%%   out_dir/grandmean_si_psd.png  â€” Row 1 left panel
+%%   out_dir/<sample>_st_psd.png   â€” Row 2 right panel
+%%   out_dir/<sample>_si_psd.png   â€” Row 2 left panel
+%%   out_dir/<sample>_st_ic_2x3.png â€” Row 3 right panel
+%%   out_dir/<sample>_si_ic_2x3.png â€” Row 3 left panel
 %%
 %% Usage:
 %%   1. Set paths below (data_root, eeglab_path, out_dir)
@@ -30,7 +30,7 @@
 
 %% ==================== USER CONFIG ====================
 % -- Set these paths to match your environment --
-data_root   = '../../data';                    % parent of prep_st_5u/ and prep_si_5u/
+data_root   = '../../data';                    % parent of prep_st_eeg/ and prep_si_eeg/
 eeglab_path = '/path/to/eeglab2024.2';     % EEGLAB root directory
 out_dir     = '../../fig/f2';                  % output directory
 sample_subj = 'S0016';                      % sample subject ID for rows 2-3
@@ -40,8 +40,8 @@ dpi         = 300;                           % export resolution
 addpath(eeglab_path); eeglab nogui;
 if ~exist(out_dir, 'dir'), mkdir(out_dir); end
 
-st_dir = fullfile(data_root, 'prep_st_5u');
-si_dir = fullfile(data_root, 'prep_si_5u');
+st_dir = fullfile(data_root, 'prep_st_eeg');
+si_dir = fullfile(data_root, 'prep_si_eeg');
 
 freq_bands = [1 4; 4 8; 8 12];             % Delta, Theta, Alpha (Hz)
 band_labels = {
@@ -226,10 +226,10 @@ end
 fprintf('\n===== Figure 2 complete =====\n');
 fprintf('Output directory: %s\n', out_dir);
 fprintf('Files:\n');
-fprintf('  grandmean_si_psd.png  — Row 1 left  (Simultaneous, grand mean)\n');
-fprintf('  grandmean_st_psd.png  — Row 1 right (Standalone, grand mean)\n');
-fprintf('  %s_si_psd.png   — Row 2 left  (Simultaneous, sample)\n', sample_subj);
-fprintf('  %s_st_psd.png   — Row 2 right (Standalone, sample)\n', sample_subj);
-fprintf('  %s_si_ic_2x3.png — Row 3 left  (Simultaneous, ICs)\n', sample_subj);
-fprintf('  %s_st_ic_2x3.png — Row 3 right (Standalone, ICs)\n', sample_subj);
+fprintf('  grandmean_si_psd.png  â€” Row 1 left  (Simultaneous, grand mean)\n');
+fprintf('  grandmean_st_psd.png  â€” Row 1 right (Standalone, grand mean)\n');
+fprintf('  %s_si_psd.png   â€” Row 2 left  (Simultaneous, sample)\n', sample_subj);
+fprintf('  %s_st_psd.png   â€” Row 2 right (Standalone, sample)\n', sample_subj);
+fprintf('  %s_si_ic_2x3.png â€” Row 3 left  (Simultaneous, ICs)\n', sample_subj);
+fprintf('  %s_st_ic_2x3.png â€” Row 3 right (Standalone, ICs)\n', sample_subj);
 fprintf('\nManual step: arrange the 6 panels into a 3x2 grid in your figure editor.\n');
