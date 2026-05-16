@@ -1,4 +1,5 @@
 %% simultaneous_eeg_prep_stage3.m — SI EEG 5u: clean (automatic brain > 0.9)
+%% Logic: remove ECG only after IC rejection, retaining 63 scalp EEG channels.
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); simultaneous_eeg_prep_stage3"
 
 if ~exist('eeglab', 'file')
@@ -15,7 +16,7 @@ skipped = {};
 
 for sub = 1:length(d)
     name = d(sub).name(1:5);
-    out_file = fullfile(data_dir, [name '_clean56.set']);
+    out_file = fullfile(data_dir, [name '_clean.set']);
     if exist(out_file, 'file')
         fprintf('SKIP %s (exists)\n', name);
         continue;
@@ -64,11 +65,11 @@ for sub = 1:length(d)
     fprintf('  Brain components: %d (of %d total)\n', length(brain), size(EEG.icawinv, 2));
 
     EEG = pop_subcomp(EEG, brain, 0, 1);
-    EEG = pop_select(EEG, 'nochannel', {'Fp1','Fp2','Fpz','ECG','TP9','TP10','FT9','FT10'});
+    EEG = pop_select(EEG, 'nochannel', {'ECG'});
     EEG = eeg_checkset(EEG);
     EEG = pop_reref(EEG, []);
 
-    EEG = pop_saveset(EEG, 'filename', [name '_clean56.set'], 'filepath', data_dir);
+    EEG = pop_saveset(EEG, 'filename', [name '_clean.set'], 'filepath', data_dir);
     fprintf('  Saved (%d ch, %d epochs)\n', EEG.nbchan, EEG.trials);
 end
 

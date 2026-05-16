@@ -28,8 +28,8 @@ fprintf('===== SI 5u stage3 (clean) =====\n');
 simultaneous_eeg_prep_stage3;
 
 % Summary
-st_done = length(dir(fullfile('../../data/prep_st_5u/', '*_clean56.set')));
-si_done = length(dir(fullfile('../../data/prep_si_5u/', '*_clean56.set')));
+st_done = length(dir(fullfile('../../data/prep_st_5u/', '*_clean.set')));
+si_done = length(dir(fullfile('../../data/prep_si_5u/', '*_clean.set')));
 fprintf('\n===== ALL DONE =====\n');
-fprintf('ST 5u: %d clean56 files\n', st_done);
-fprintf('SI 5u: %d clean56 files\n', si_done);
+fprintf('ST 5u: %d clean files (63ch, ECG removed)\n', st_done);
+fprintf('SI 5u: %d clean files (63ch, ECG removed)\n', si_done);

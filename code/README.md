@@ -22,10 +22,10 @@ results.
 |---|---|
 | `aa_prep_st_5u_c1.m` | Standalone EEG raw-to-epoch preprocessing for five-utterance trials. |
 | `aa_prep_st_5u_c2.m` | Standalone EEG ICA stage. |
-| `aa_prep_st_5u_c3.m` / `aa_prep_st_5u_c3b.m` | Standalone EEG IC rejection and release cleaning. |
+| `standalone_eeg_prep_stage3.m` | Standalone EEG IC rejection and 63-channel release cleaning; ECG is the only channel removed. |
 | `aa_prep_si_5u_c1.m` | Simultaneous EEG-fMRI post-AAS/BCG epoch preprocessing. |
 | `aa_prep_si_5u_c2.m` | Simultaneous EEG-fMRI ICA stage. |
-| `aa_prep_si_5u_c3.m` / `aa_prep_si_5u_c3b.m` | Simultaneous EEG-fMRI IC rejection and release cleaning. |
+| `simultaneous_eeg_prep_stage3.m` | Simultaneous EEG-fMRI IC rejection and 63-channel release cleaning; ECG is the only channel removed. |
 | `local_psd_4plots.m` | Figure 2 PSD/topomap panels from the ICA-based release derivatives. |
 | `local_s0016_ic_gfp.m` | Representative S0016 ICA panels for Figure 2. |
 | `local_erp_5phrases_C3_4panels.m` | Phrase ERP panels for Figure 3. |

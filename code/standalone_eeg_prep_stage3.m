@@ -1,5 +1,5 @@
 %% standalone_eeg_prep_stage3.m — ST EEG 5u: clean (automatic only, no manual IC)
-%% Logic: keep all IC except artifact>0.9 and brain<0.1 (same as original ST, minus manual)
+%% Logic: keep all IC except artifact>0.9 and brain<0.1; remove ECG only.
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); standalone_eeg_prep_stage3"
 
 if ~exist('eeglab', 'file')
@@ -16,7 +16,7 @@ skipped = {};
 
 for sub = 1:length(d)
     name = d(sub).name(1:5);
-    out_file = fullfile(data_dir, [name '_clean56.set']);
+    out_file = fullfile(data_dir, [name '_clean.set']);
     if exist(out_file, 'file')
         fprintf('SKIP %s (exists)\n', name);
         continue;
@@ -57,11 +57,11 @@ for sub = 1:length(d)
     fprintf('  Brain components: %d (of %d total)\n', length(brain), size(EEG.icawinv, 2));
 
     EEG = pop_subcomp(EEG, brain, 0, 1);
-    EEG = pop_select(EEG, 'nochannel', {'Fp1','Fp2','Fpz','ECG','TP9','TP10','FT9','FT10'});
+    EEG = pop_select(EEG, 'nochannel', {'ECG'});
     EEG = eeg_checkset(EEG);
     EEG = pop_reref(EEG, []);
 
-    EEG = pop_saveset(EEG, 'filename', [name '_clean56.set'], 'filepath', data_dir);
+    EEG = pop_saveset(EEG, 'filename', [name '_clean.set'], 'filepath', data_dir);
     fprintf('  Saved (%d ch, %d epochs)\n', EEG.nbchan, EEG.trials);
 end
 

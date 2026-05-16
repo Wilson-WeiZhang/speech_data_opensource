@@ -10,11 +10,11 @@
 %% Requirements:
 %%   - MATLAB (tested R2025b)
 %%   - EEGLAB (tested 2024.2) with ICLabel plugin
-%%   - Preprocessed data: *_clean56.set files in prep_st_5u/ and prep_si_5u/
+%%   - Preprocessed data: *_clean.set files in prep_st_5u/ and prep_si_5u/
 %%
 %% Input data:
-%%   data_root/prep_st_5u/  — Standalone EEG, 56-ch, 5-utterance epochs (N=58)
-%%   data_root/prep_si_5u/  — Simultaneous EEG, 56-ch, 5-utterance epochs (N=51)
+%%   data_root/prep_st_5u/  — Standalone EEG, 63-ch, 5-utterance epochs (N=58)
+%%   data_root/prep_si_5u/  — Simultaneous EEG, 63-ch, 5-utterance epochs (N=51)
 %%
 %% Output:
 %%   out_dir/grandmean_st_psd.png  — Row 1 right panel
@@ -59,7 +59,7 @@ gm = struct();  % store grand-mean results
 
 for m = 1:2
     tag = modalities{m};
-    files = dir(fullfile(mod_dirs{m}, '*_clean56.set'));
+    files = dir(fullfile(mod_dirs{m}, '*_clean.set'));
     n_subj = length(files);
     fprintf('=== %s: %d subjects ===\n', mod_labels{m}, n_subj);
 
@@ -103,7 +103,7 @@ end
 sample = struct();
 for m = 1:2
     tag = modalities{m};
-    fname = sprintf('%s_clean56.set', sample_subj);
+    fname = sprintf('%s_clean.set', sample_subj);
     EEG = pop_loadset('filename', fname, 'filepath', mod_dirs{m});
 
     [spectra, freqs] = spectopo(EEG.data, 0, EEG.srate, ...
