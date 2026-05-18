@@ -1,32 +1,29 @@
-%% gen_fig2_opensource.m â€” Figure 2: EEG Signal Quality
+%% gen_fig2.m - Figure 2: EEG Signal Quality
 %% Reproduces Figure 2 from the DSO Data Descriptor manuscript.
 %%
-%% Figure layout (3 rows x 2 columns):
+%% Figure layout (2 rows x 2 columns):
 %%   Col 1: Simultaneous EEG (SI)    Col 2: Standalone EEG (ST)
-%%   Row 1: Grand-mean PSD â€” 3 topomaps (Delta/Theta/Alpha) + channel PSD
-%%   Row 2: Sample subject PSD â€” same layout as Row 1
-%%   Row 3: Sample subject ICs â€” top 6 independent component topomaps
+%%   Row 1: Grand-mean PSD - 3 topomaps (Delta/Theta/Alpha) + channel PSD
+%%   Row 2: Sample subject PSD - same layout as Row 1
 %%
 %% Requirements:
 %%   - MATLAB (tested R2025b)
-%%   - EEGLAB (tested 2024.2) with ICLabel plugin
+%%   - EEGLAB (tested 2024.2)
 %%   - Preprocessed data: *_clean.set files in prep_st_eeg/ and prep_si_eeg/
 %%
 %% Input data:
-%%   data_root/prep_st_eeg/  â€” Standalone EEG, 63-ch, 5-utterance epochs (N=58)
-%%   data_root/prep_si_eeg/  â€” Simultaneous EEG, 63-ch, 5-utterance epochs (N=51)
+%%   data_root/prep_st_eeg/  - Standalone EEG, 63-ch, 5-utterance epochs (N=58)
+%%   data_root/prep_si_eeg/  - Simultaneous EEG, 63-ch, 5-utterance epochs (N=51)
 %%
 %% Output:
-%%   out_dir/grandmean_st_psd.png  â€” Row 1 right panel
-%%   out_dir/grandmean_si_psd.png  â€” Row 1 left panel
-%%   out_dir/<sample>_st_psd.png   â€” Row 2 right panel
-%%   out_dir/<sample>_si_psd.png   â€” Row 2 left panel
-%%   out_dir/<sample>_st_ic_2x3.png â€” Row 3 right panel
-%%   out_dir/<sample>_si_ic_2x3.png â€” Row 3 left panel
+%%   out_dir/grandmean_st_psd.png  - Row 1 right panel
+%%   out_dir/grandmean_si_psd.png  - Row 1 left panel
+%%   out_dir/<sample>_st_psd.png   - Row 2 right panel
+%%   out_dir/<sample>_si_psd.png   - Row 2 left panel
 %%
 %% Usage:
 %%   1. Set paths below (data_root, eeglab_path, out_dir)
-%%   2. Run: matlab -batch "gen_fig2_opensource"
+%%   2. Run: matlab -batch "gen_fig2"
 
 %% ==================== USER CONFIG ====================
 % -- Set these paths to match your environment --
@@ -54,6 +51,7 @@ band_labels = {
 modalities = {'si', 'st'};
 mod_dirs   = {si_dir, st_dir};
 mod_labels = {'Simultaneous EEG', 'Standalone EEG'};
+expected_n = [51, 58];
 
 gm = struct();  % store grand-mean results
 
@@ -62,6 +60,8 @@ for m = 1:2
     files = dir(fullfile(mod_dirs{m}, '*_clean.set'));
     n_subj = length(files);
     fprintf('=== %s: %d subjects ===\n', mod_labels{m}, n_subj);
+    assert(n_subj == expected_n(m), ...
+        '%s expected %d clean files, found %d', mod_labels{m}, expected_n(m), n_subj);
 
     all_psd_ch = [];   % n_subj x n_ch x n_freqs
     all_topo   = [];   % n_subj x n_ch x 3 bands
@@ -69,6 +69,7 @@ for m = 1:2
     for i = 1:n_subj
         fprintf('  %d/%d: %s\n', i, n_subj, files(i).name(1:5));
         EEG = pop_loadset('filename', files(i).name, 'filepath', mod_dirs{m});
+        assert(EEG.nbchan == 63, '%s has %d channels, expected 63', files(i).name, EEG.nbchan);
 
         % Per-channel PSD via spectopo (returns dB: 10*log10(uV^2/Hz))
         [spectra, freqs] = spectopo(EEG.data, 0, EEG.srate, ...
@@ -105,6 +106,7 @@ for m = 1:2
     tag = modalities{m};
     fname = sprintf('%s_clean.set', sample_subj);
     EEG = pop_loadset('filename', fname, 'filepath', mod_dirs{m});
+    assert(EEG.nbchan == 63, '%s has %d channels, expected 63', fname, EEG.nbchan);
 
     [spectra, freqs] = spectopo(EEG.data, 0, EEG.srate, ...
         'freqrange', [1 30], 'plot', 'off');
@@ -119,7 +121,6 @@ for m = 1:2
     sample.(tag).freqs    = freqs;
     sample.(tag).topo     = topo_dat;
     sample.(tag).chanlocs = EEG.chanlocs;
-    sample.(tag).EEG      = EEG;
 end
 
 %% ==================== STEP 3: Determine Global Colorbar Limits ====================
@@ -189,47 +190,12 @@ for p = 1:4
     fprintf('  Saved %s.png\n', fname);
 end
 
-%% ==================== STEP 5: Plot IC Topomaps (Row 3) ====================
-% Top 6 independent components for the sample subject, arranged 2 rows x 3 cols.
-
-icl_labels = {'Brain','Muscle','Eye','Heart','Line Noise','Channel Noise','Other'};
-icl_short  = {'Br','Mu','Ey','Ht','Ln','Ch','Ot'};
-
-for m = 1:2
-    tag = modalities{m};
-    EEG = sample.(tag).EEG;
-    n_ics = min(6, size(EEG.icawinv, 2));
-
-    fig = figure('Position', [50 50 900 550], 'Color', 'w', 'Visible', 'off');
-    for ic = 1:n_ics
-        subplot(2, 3, ic);
-        topoplot(EEG.icawinv(:, ic), EEG.chanlocs, 'electrodes', 'on');
-
-        % ICLabel classification
-        if isfield(EEG.etc, 'ic_classification') && ...
-                isfield(EEG.etc.ic_classification, 'ICLabel')
-            cls = EEG.etc.ic_classification.ICLabel.classifications(ic, :);
-            [mx, mi] = max(cls);
-            title(sprintf('IC%d: %s %.0f%%', ic, icl_short{mi}, mx*100), 'FontSize', 11);
-        else
-            title(sprintf('IC%d', ic), 'FontSize', 11);
-        end
-    end
-
-    fname = sprintf('%s_%s_ic_2x3', sample_subj, tag);
-    exportgraphics(fig, fullfile(out_dir, [fname '.png']), 'Resolution', dpi);
-    close(fig);
-    fprintf('  Saved %s.png\n', fname);
-end
-
 %% ==================== DONE ====================
 fprintf('\n===== Figure 2 complete =====\n');
 fprintf('Output directory: %s\n', out_dir);
 fprintf('Files:\n');
-fprintf('  grandmean_si_psd.png  â€” Row 1 left  (Simultaneous, grand mean)\n');
-fprintf('  grandmean_st_psd.png  â€” Row 1 right (Standalone, grand mean)\n');
-fprintf('  %s_si_psd.png   â€” Row 2 left  (Simultaneous, sample)\n', sample_subj);
-fprintf('  %s_st_psd.png   â€” Row 2 right (Standalone, sample)\n', sample_subj);
-fprintf('  %s_si_ic_2x3.png â€” Row 3 left  (Simultaneous, ICs)\n', sample_subj);
-fprintf('  %s_st_ic_2x3.png â€” Row 3 right (Standalone, ICs)\n', sample_subj);
-fprintf('\nManual step: arrange the 6 panels into a 3x2 grid in your figure editor.\n');
+fprintf('  grandmean_si_psd.png  - Row 1 left  (Simultaneous, grand mean)\n');
+fprintf('  grandmean_st_psd.png  - Row 1 right (Standalone, grand mean)\n');
+fprintf('  %s_si_psd.png   - Row 2 left  (Simultaneous, sample)\n', sample_subj);
+fprintf('  %s_st_psd.png   - Row 2 right (Standalone, sample)\n', sample_subj);
+fprintf('\nManual step: arrange the 4 panels into a 2x2 grid in your figure editor.\n');

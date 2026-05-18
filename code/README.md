@@ -26,19 +26,16 @@ results.
 | `simultaneous_eeg_prep_stage1.m` | Simultaneous EEG-fMRI post-AAS/BCG epoch preprocessing. |
 | `simultaneous_eeg_prep_stage2.m` | Simultaneous EEG-fMRI ICA stage. |
 | `simultaneous_eeg_prep_stage3.m` | Simultaneous EEG-fMRI IC rejection and 63-channel release cleaning; ECG is the only channel removed. |
-| `local_psd_4plots.m` | Figure 2 PSD/topomap panels from the ICA-based release derivatives. |
-| `local_s0016_ic_gfp.m` | Representative S0016 ICA panels for Figure 2. |
-| `local_erp_5phrases_C3_4panels.m` | Phrase ERP panels for Figure 3. |
-| `local_grandmean_gfp.m` | Grand-mean GFP panels for Figure 3. |
-| `scan_iclabel_all_subjects.m` | ICLabel distribution scan and representative-subject selection. |
-| `QC_PLAN.md` | Technical Validation figure and QC plan. |
+| `gen_fig2.m` | Figure 2 PSD/topomap source panels from the 63-channel release derivatives. |
+| `gen_fig3.m` | Figure 3 grand-mean GFP and Cz ERP source panels from the 63-channel release derivatives. |
+| `gen_iclabel_stats.m` | ICLabel distribution summary for Technical Validation. |
 
 ## Data Roots Used by Manuscript Figures
 
 - Standalone EEG release derivative: `prep_st_eeg/`
 - Simultaneous EEG-fMRI release derivative: `prep_si_eeg/`
-- Figure 2 source panels are generated from the release derivatives using the
-  scripts in this folder.
+- Figure 2 and Figure 3 source panels are generated from the release
+  derivatives using `gen_fig2.m` and `gen_fig3.m`.
 
 Set these paths inside the scripts before running them on a local copy of the
 dataset.

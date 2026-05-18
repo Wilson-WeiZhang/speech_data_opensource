@@ -1,10 +1,10 @@
-%% gen_fig3_opensource.m â€” Figure 3: Phrase-Specific ERPs
+%% gen_fig3.m - Figure 3: Phrase-Specific ERPs
 %% Reproduces Figure 3 from the DSO Data Descriptor manuscript.
 %%
 %% Figure layout (2 rows x 2 columns):
 %%   Col 1: Standalone EEG (ST)       Col 2: Simultaneous EEG (SI)
-%%   Row 1: GFP â€” 5 phrases           Row 1: GFP â€” 5 phrases
-%%   Row 2: Cz  â€” 5 phrases           Row 2: Cz  â€” 5 phrases
+%%   Row 1: GFP - 5 phrases           Row 1: GFP - 5 phrases
+%%   Row 2: Cz  - 5 phrases           Row 2: Cz  - 5 phrases
 %%
 %% Each panel shows grand-average waveforms (5 command phrases) with SEM
 %% shading across subjects. Data are baseline z-scored and smoothed (20 ms
@@ -16,8 +16,8 @@
 %%   - Preprocessed data: *_clean.set files in prep_st_eeg/ and prep_si_eeg/
 %%
 %% Input data:
-%%   data_root/prep_st_eeg/  â€” Standalone EEG, 63-ch, covert epochs (N=58)
-%%   data_root/prep_si_eeg/  â€” Simultaneous EEG, 63-ch, covert epochs (N=51)
+%%   data_root/prep_st_eeg/  - Standalone EEG, 63-ch, covert epochs (N=58)
+%%   data_root/prep_si_eeg/  - Simultaneous EEG, 63-ch, covert epochs (N=51)
 %%
 %% Output:
 %%   out_dir/erp_5phrases_gfp_st_covert.png
@@ -27,7 +27,7 @@
 %%
 %% Usage:
 %%   1. Set paths below (data_root, eeglab_path, out_dir)
-%%   2. Run: matlab -batch "gen_fig3_opensource"
+%%   2. Run: matlab -batch "gen_fig3"
 
 %% ==================== USER CONFIG ====================
 data_root   = '../../data';                    % parent of prep_st_eeg/ and prep_si_eeg/
@@ -49,6 +49,7 @@ colors = [97, 108, 140; 86, 140, 135; 178, 213, 155; 242, 222, 121; 217, 95, 24]
 modalities = {'st', 'si'};
 mod_dirs   = {st_dir, si_dir};
 mod_labels = {'Standalone EEG', 'Simultaneous EEG'};
+expected_n = [58, 51];
 
 % Channel modes to plot
 ch_modes  = {'GFP', 'Cz'};
@@ -60,9 +61,12 @@ for m = 1:2
     files = dir(fullfile(mod_dirs{m}, '*_clean.set'));
     n_subj = length(files);
     fprintf('\n=== %s: %d subjects ===\n', mod_labels{m}, n_subj);
+    assert(n_subj == expected_n(m), ...
+        '%s expected %d clean files, found %d', mod_labels{m}, expected_n(m), n_subj);
 
     % Get dimensions from first file
     EEG0 = pop_loadset('filename', files(1).name, 'filepath', mod_dirs{m});
+    assert(EEG0.nbchan == 63, '%s has %d channels, expected 63', files(1).name, EEG0.nbchan);
     times  = EEG0.times / 1000;           % ms -> seconds
     n_pnts = EEG0.pnts;
     bl_idx = times < 0;                    % baseline: pre-stimulus samples
@@ -75,6 +79,7 @@ for m = 1:2
     for s = 1:n_subj
         fprintf('  %d/%d: %s\n', s, n_subj, files(s).name(1:5));
         EEG = pop_loadset('filename', files(s).name, 'filepath', mod_dirs{m});
+        assert(EEG.nbchan == 63, '%s has %d channels, expected 63', files(s).name, EEG.nbchan);
 
         %% Parse phrase number from epoch labels
         % Label format: "C 4_u_1_b_2" (C=covert, 4=phrase, u=utterance, b=block)
@@ -168,7 +173,7 @@ for m = 1:2
             ylabel('Amplitude (z-score)', 'FontSize', font_size);
         end
         xlim([-0.5, 1.5]);
-        title(sprintf('%s â€” %s, 5 Phrases (N=%d)', ...
+        title(sprintf('%s - %s, 5 Phrases (N=%d)', ...
             mod_labels{m}, ch_modes{mode}, n_subj), 'FontSize', font_size + 2);
         set(gca, 'TickDir', 'out', 'Box', 'off', 'FontSize', font_size, 'LineWidth', 3);
         ax = gca;
@@ -189,8 +194,8 @@ end
 fprintf('\n===== Figure 3 complete =====\n');
 fprintf('Output directory: %s\n', out_dir);
 fprintf('Files:\n');
-fprintf('  erp_5phrases_gfp_st_covert.png  â€” GFP, Standalone\n');
-fprintf('  erp_5phrases_gfp_si_covert.png  â€” GFP, Simultaneous\n');
-fprintf('  erp_5phrases_cz_st_covert.png   â€” Cz,  Standalone\n');
-fprintf('  erp_5phrases_cz_si_covert.png   â€” Cz,  Simultaneous\n');
+fprintf('  erp_5phrases_gfp_st_covert.png  - GFP, Standalone\n');
+fprintf('  erp_5phrases_gfp_si_covert.png  - GFP, Simultaneous\n');
+fprintf('  erp_5phrases_cz_st_covert.png   - Cz,  Standalone\n');
+fprintf('  erp_5phrases_cz_si_covert.png   - Cz,  Simultaneous\n');
 fprintf('\nManual step: arrange the 4 panels into a 2x2 grid in your figure editor.\n');
