@@ -1,4 +1,4 @@
-%% simultaneous_eeg_prep_stage2.m â€” SI EEG 5u: ICA + ICLabel + MARA
+%% simultaneous_eeg_prep_stage2.m - SI EEG 5u: ICA + ICLabel + MARA
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); simultaneous_eeg_prep_stage2"
 
 if ~exist('eeglab', 'file')

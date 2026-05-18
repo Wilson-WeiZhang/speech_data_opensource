@@ -1,4 +1,4 @@
-%% run_eeg_prep_stages2_3.m â€” Run stage2 (ICA, parfor 16) + stage3 for both ST and SI
+%% run_eeg_prep_stages2_3.m - Run stage2 (ICA, parfor 16) + stage3 for both ST and SI
 %% Run after stage1 completes:
 %% matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); run_eeg_prep_stages2_3"
 

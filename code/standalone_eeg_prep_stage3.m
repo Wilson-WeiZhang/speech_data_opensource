@@ -1,4 +1,4 @@
-%% standalone_eeg_prep_stage3.m â€” ST EEG 5u: clean (automatic only, no manual IC)
+%% standalone_eeg_prep_stage3.m - ST EEG 5u: clean (automatic only, no manual IC)
 %% Logic: keep all IC except artifact>0.9 and brain<0.1; remove ECG only.
 %% Run: matlab -batch "addpath('/path/to/eeglab'); cd('/path/to/code'); standalone_eeg_prep_stage3"
 
@@ -41,7 +41,7 @@ for sub = 1:length(d)
 
     all_artifacts = unique([t_mus, t_eye, t_heart, t_line, t_chan]);
 
-    % brain < 0.1 â†’ also remove
+    % brain < 0.1 -> also remove
     low_brain = find(EEG.etc.ic_classification.ICLabel.classifications(:, 1) < 0.1)';
     low_brain = setdiff(low_brain, all_artifacts);
 
@@ -49,7 +49,7 @@ for sub = 1:length(d)
     brain = setdiff(1:size(EEG.icawinv, 2), [all_artifacts, low_brain]);
 
     if isempty(brain)
-        fprintf('  NO brain components after filtering â€” SKIPPED\n');
+        fprintf('  NO brain components after filtering - SKIPPED\n');
         skipped{end+1} = name;
         continue;
     end
